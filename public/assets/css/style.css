@@ -1,0 +1,26 @@
+.pagination-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination-container > .pagination{
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.list-container{
+    min-height:calc(100vh - 400px);
+}
+
+.content-wrapper{
+    padding: 0px 10px 10px 10px ;
+}
+.inactive{
+    background-color: #eec4c4;
+}
+.important-column{
+    background-color: #f6eaca;
+    border: 1px solid rgba(0,0,0,.2);
+}
