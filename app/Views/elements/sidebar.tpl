@@ -27,10 +27,10 @@
                with font-awesome or any other icon font library -->
 
           {{if $menu && count($menu)}}
-            
-            {{foreach item=v from=$menu}}
-            <li class="nav-item" id="item-{{$v.id}}">
-              <a href="{{site_url($v.route)}}" class="nav-link" id="link-{{$v.id}}">
+
+          {{foreach item=v from=$menu}}
+            <li class="nav-item">
+              <a href="{{site_url($v.route)}}" class="nav-link" id="{{$v.controller}}">
                 <i class="nav-icon fas {{$v.icon}}"></i>
                 <p>
                   {{$v.title}}
@@ -44,7 +44,7 @@
 
                 {{foreach from=$v.childs item=$c}}
                     <li class="nav-item" id="item-{$c.id}">
-                        <a href="{{site_url($c.route)}}" class="nav-link" id="link-{{$c.id}}">
+                        <a href="{{site_url($c.route)}}" class="nav-link" id="{{$c.controller}}">
                           <i class="fas {{$c.icon}} nav-icon"></i>
                           <p>{{$c.title}}</p>
                         </a>

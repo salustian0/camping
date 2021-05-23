@@ -7,56 +7,25 @@ $(document).ready(function(){
   Main._menu();
 });
 
+//Ativando links do menu
 Main._menu = function(){
+  if(typeof link_ref !== "undefined"){
 
-  $.ajax({
-    url: `${BASE_URL}/system/getActiveMenus`,
-    method: 'post',
-    dataType: 'json',
-    success: function(resp){
-      if(resp !== false){
-        if(typeof resp.actives !== "undefined"){
-          for(let key in resp.actives){
-            let current_id = resp.actives[key];
-            $(current_id).addClass("active");
-          }
-        }
-        if(typeof resp.opened !== "undefined"){
-          $(resp.opened).addClass("menu-is-opening menu-open");
+    if(typeof link_ref.link){
+        let $current = $(`#${link_ref.link}`);
+        if($current.length){
+          $current.addClass('active');
         }
       }
-    }
-  })
 
-
-  $(".nav-link").on("click",function(e){
-
-    let actives = [];
-    let data = {};
-
-    actives.push("#"+$(this).attr('id'));
-    let $parent = $(this).parent().parent().siblings('.nav-link');
-    if($parent.length){
-      actives.push("#"+$parent.attr('id'));
-      data.opened = "#"+$parent.parent().attr('id');
-    }
-
-    data.actives = actives;
-
-    $.ajax({
-       url: `${BASE_URL}/system/setActiveMenus`,
-       method: 'POST',
-       data: data,
-       dataType: 'json',
-
-       success: function(resp){
-        console.log(resp);
-       }
-     })
-  });
-
-
-
+      if(typeof link_ref.openned !== "undefined" && link_ref.openned !== ""){
+        let $current = $(`#${link_ref.openned}`);
+        if($current.length){
+          $current.addClass('active');
+          $current.parent().addClass("menu-is-opening menu-open");
+        }
+      }
+  }
 }
 
 //Verifica a sessão antes de realizar consultas
@@ -143,6 +112,7 @@ Main._init = function(){
       }
     })
   }
+
 }
 
 

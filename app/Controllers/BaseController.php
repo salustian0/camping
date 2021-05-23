@@ -79,7 +79,7 @@ class BaseController extends Controller
 		//Configurando caminho e module
 		if(isset($_SESSION['module_settings'])){
 			$this->module = $_SESSION['module_settings']['module'];
-			$this->pathMod = "/".$_SESSION['module_settings']['path']."/".$_SESSION['module_settings']['module'];
+            $this->pathMod = "/".$_SESSION['module_settings']['path']."/".$_SESSION['module_settings']['module'];
 			$this->template->setVar('pathMod',$this->pathMod);
 
 			$this->path = $_SESSION['module_settings']['path'];
@@ -109,12 +109,9 @@ class BaseController extends Controller
 		$this->template->setVar('active_toast',true);
 		$this->template->setVar('ref',$this->ref);
 
-
-
-
-
-
-	}
+		//ativação dos links do menu
+        $this->template->setVar('link_ref', array('link' => $this->module,'openned' => $this->path));
+    }
 
 
 	

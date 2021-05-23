@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.36, created on 2021-05-08 12:49:36
+/* Smarty version 3.1.36, created on 2021-05-19 16:30:14
   from 'C:\wamp64\www\camping\app\views\elements\header.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.36',
-  'unifunc' => 'content_6096cf30a17be0_85499082',
+  'unifunc' => 'content_60a58366d0fad9_42033770',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '291c7e52dcc4b9aee23de5c808550244bbe2bed7' => 
     array (
       0 => 'C:\\wamp64\\www\\camping\\app\\views\\elements\\header.tpl',
-      1 => 1620495893,
+      1 => 1621459803,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:elements/modal-delete.tpl' => 1,
   ),
 ),false)) {
-function content_6096cf30a17be0_85499082 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60a58366d0fad9_42033770 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="en">
 <head>

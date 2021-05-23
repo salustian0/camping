@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 class Orders_Model extends Model{
     //Definições
     protected $DBGroup = 'default';
-    protected $table      = 'category';
+    protected $table      = 'orders';
     protected $primaryKey = 'id';
     protected $returnType     = 'array';
 
@@ -34,12 +34,10 @@ class Orders_Model extends Model{
 	}
 
 	public function listing($where = array(), $limit = array()){
-		$this->select("{$this->table}.*,
-						DATE_FORMAT({$this->table}.dtRegister, '%d/%m/%Y \à\s %H\hr(s)') AS dtRegister,
-						DATE_FORMAT({$this->table}.dtUpdate, '%d/%m/%Y \à\s %H\hr(s)') AS dtUpdate", FALSE);
-		$this->where("{$this->table}.active"	, 'Y');
-		$this->where($where);
+		$this->select("list_orders.*");
+		$this->from("list_orders");
 		//$this->orderBy("{$this->table}.name"	, 'ASC');
+        $this->where($where);
 		return $this->findAll($limit['limit'],$limit['start']);
 	}
 
@@ -51,10 +49,11 @@ class Orders_Model extends Model{
     }
 
 	public function countPaginate($where = array()){
-		$this->select("{$this->table}.id")	;
-		$this->where("{$this->table}.active"	, 'Y');
-		$this->where($where);
-		return $this->countAllResults();
+        $this->select("list_orders.id");
+        $this->from("list_orders");
+        //$this->orderBy("{$this->table}.name"	, 'ASC');
+        $this->where($where);
+        return $this->countAllResults();
 	}
 
 	public function getRow($idRows){

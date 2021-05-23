@@ -5,53 +5,69 @@ use App\Controllers\BaseController;
 class Orders extends BaseController {
 	private $rowPaginate	= 25;
 	private $Orders_Model = null;
-	private $required_fields = array();
+    private $Products_Model = null;
+    private $Users_Model = null;
+
+    private $required_fields = array();
 
 	public function __construct(){
         $this->Orders_Model = model('\App\Models\Orders_Model');
+        $this->Products_Model = model('\App\Models\Products_Model');
+        $this->Users_Model = model('\App\Models\Users_Model');
 
 
         //Campos necessários para o registro
 		$this->required_fields['register'] 	 = array('name','description');
 		$this->required_fields['change']	 = array();
 
-		$this->ref['plural'] = 'categorias';
-		$this->ref['single'] = 'categoria';
+		$this->ref['plural'] = 'pedidos';
+		$this->ref['single'] = 'pedido';
 
 	}
 
+    //Verificando se é uma ação de formulario
+    public function submit(){
+        $action = isset($_POST['action']) && !empty($_POST['action']) ? $_POST['action'] : null;
+
+        $_SESSION['data_sent'] = $_POST;
+
+        if(method_exists($this,$action)){
+            return $this->$action();
+            die();
+        }
+        else
+        {
+            return redirect()->to(site_url('404'));
+        }
+    }
 
 	//Verificando se é uma ação de formulario
-	public function submit(){
-		$action = isset($_POST['action']) && !empty($_POST['action']) ? $_POST['action'] : null;
-		
-		$_SESSION['data_sent'] = $_POST;
-
-		if(method_exists($this,$action)){
-			return $this->$action();
-			die();
-		}
-		else
-		{
-			return redirect()->to(site_url('404'));
-		}
-	}
+	public function create(){
+	    if(!isset($_SESSION['creating_order'])){
+            $_SESSION['creating_order'] = true;
+            setToast("Criação de pedido em andamento","info");
+        }
+	    else
+	    {
+	        setToast("Já existe uma criação de pedido em andamento.","warning");
+        }
+        return redirect()->to("index");
+    }
 
 	/*Módulo de listagem de dados*/
 	public function index(){
 		$tpl = array();
 		$limit = array("start" => 0, 'limit' => $this->rowPaginate);
 
-
 		$listing = $this->Orders_Model->listing(array(),$limit);
-
 		if(isset($listing) && count($listing)){
 			$tpl['listing'] = $listing;
 		}
 
 		$tpl['active_toast'] = true;
 
-		$tpl['js'] = array('list.js');
+		$tpl['js'] = array('list.js','orders.js');
+
 
         $total_results = $this->Orders_Model->countPaginate();
         $tpl['total_results'] = isset($total_results) ? $total_results : 0;
@@ -60,60 +76,7 @@ class Orders extends BaseController {
 		$this->template->view("modules/{$this->pathMod}/list.tpl",$tpl);
 	}
 
-    /*Módulo de registro e edição de dados*/
-	public function form(){
-		$tpl = array();
-		$id = isset($_POST['id']) ? $_POST['id'] : null;
 
-        if(isset($id) && !empty($id)){
-            $data = $this->Orders_Model->getRow($id[0]);
-            if(isset($data) && count($data)){
-                $tpl['data'] = $data;
-            }
-        }
-
-		$tpl['js'] = array();
-		$this->template->view("modules/{$this->pathMod}/form.tpl",$tpl);
-	}
-
-	//Método de verificação Edição ou registro, ambos utilizam o mesmo formulario
-	public function save(){
-			$id = isset($_POST['id']) ? $_POST['id'] : null;
-			/* Decisão alteração ou registro*/
-			if(empty($id))
-			{
-				return $this->register();
-			}
-			else
-			{
-				return $this->change($id);
-			}
-	}
-
-    //Alteração de dados
-	private function change($id = 0){
-		//Verificação se os campos requeridos pelo registro foram informados
-		if(!has_fields($this->required_fields['change'],$_POST))
-		{
-			setToast('por favor preencha os campos necessários.','error');
-			return redirect()->to("form");
-		}
-
-		$data = array();
-		$data = setIndexes($this->required_fields['register'],$_POST);
-
-
-		$data['dtUpdate'] = date('Y-m-d H:i:s');
-
-		//filtrando indices vazios
-		$data = array_filter($data);
-
-		// Realizando o update do registro no banco de dados
-		if($this->Orders_Model->change($data,$id)){
-			setToast("{$this->ref['single']} atualizado com sucesso.",'success');
-			return redirect()->to("index");
-		}
-	}
 
     //Busca 'Listagem' -> Ajax
 	public function search(){
@@ -123,7 +86,7 @@ class Orders extends BaseController {
 		$where = array();
 
 		if(!empty($text_search)){
-			$where = "(category.name like '%{$text_search}%' or category.description like  '%{$text_search}%' or category.module like  '%{$text_search}%')";
+			$where = "(list_orders.user_id like '%{$text_search}%' or list_orders.id like  '%{$text_search}%')";
 		}
 
 		$limit = array("start" => ($page * $this->rowPaginate), "limit" => $this->rowPaginate);
@@ -140,42 +103,57 @@ class Orders extends BaseController {
 		echo json_encode(false);
 	}
 
+    public function search_users(){
+        $text_search = isset($_POST['search']) ? $_POST['search'] : null;
+        $page = isset($_POST['page']) ? $_POST['page'] : null;
 
-	private function register(){
-		//Verificação se os campos requeridos pelo registro foram informados
-		if(!has_fields($this->required_fields['register'],$_POST))
-		{
-			setToast('por favor preencha os campos necessários.','error');
-			return redirect()->to("form");
-		}
-		$exists = $this->Orders_Model->already_exists(array('category.name' => $_POST['name']));
+        $where = array();
 
-		if(!$exists)
-		{
-			$data = array();
+        if(!empty($text_search)){
+            $where = "(users.name like '%{$text_search}%' or users.email like  '%{$text_search}%' or users.id like  '%{$text_search}%' or users.docNumber like  '%{$text_search}%')";
+        }
 
-			$data = setIndexes($this->required_fields['register'],$_POST);
+        $limit = array("start" => ($page * $this->rowPaginate), "limit" => $this->rowPaginate);
+        $total = $this->Users_Model->countPaginate($where);
+        $pagination =  makePaginationView($total,$this->rowPaginate,$page);
 
-			$data['dtRegister'] = date('Y-m-d H:i:s');
-			$data['idAdministratorFk'] = $_SESSION['painel']['id'];
-	
-			//filtrando indices vazios
-			$data = array_filter($data);
-	
-			// Realizando o cadastro
-            $last_id = $this->Orders_Model->record($data);
-			if($last_id){
-				setToast("{$this->ref['single']} registrado com sucesso!",'success');
-				return redirect()->to("index");
-			}
-		}
-		else
-		{
-			setToast("{$this->ref['single']} já existente na base de dados",'warning');
-			return redirect()->to("form");
-		}
-		
-	}
+        $listing = $this->Users_Model->listing($where,$limit);
+
+        if(isset($listing) && count($listing)){
+            $table = 	$this->template->view("modules/{$this->pathMod}/users/table.tpl",array('listing' => $listing),true);
+            echo json_encode(array("table" => $table, "pagination" => $pagination,'total_results' => $total));
+            die();
+        }
+        echo json_encode(false);
+    }
+
+
+    public function search_products(){
+        $text_search = isset($_POST['search']) ? $_POST['search'] : null;
+        $page = isset($_POST['page']) ? $_POST['page'] : null;
+
+        $where = array();
+
+        if(!empty($text_search)){
+            $where = "(product.name like '%{$text_search}%' or product.description like  '%{$text_search}%' or category.name like  '%{$text_search}%')";
+        }
+
+        $limit = array("start" => ($page * $this->rowPaginate), "limit" => $this->rowPaginate);
+        $total = $this->Products_Model->countPaginate($where);
+        $pagination =  makePaginationView($total,$this->rowPaginate,$page);
+
+        $listing = $this->Products_Model->listing($where,$limit);
+
+        if(isset($listing) && count($listing)){
+            $table = 	$this->template->view("modules/{$this->pathMod}/products/table.tpl",array('listing' => $listing),true);
+            echo json_encode(array("table" => $table, "pagination" => $pagination,'total_results' => $total));
+            die();
+        }
+        echo json_encode(false);
+    }
+
+
+
 
 	public function delete(){
 		$ids = get_var('id',$_POST);

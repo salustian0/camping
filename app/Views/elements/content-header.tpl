@@ -16,4 +16,10 @@
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
 </div>
+
+     {{if $creating_order}}
+        <div class="alert alert-info">
+          Criação de pedido em andamento.
+        </div>
+    {{/if}}
     <!-- /.content-header -->

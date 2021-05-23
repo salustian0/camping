@@ -3,6 +3,8 @@
 
 <div class="content-wrapper"> <!--content-wrapper -->
 {{include file="elements/content-header.tpl"}}
+{{include file="modules/{{$pathMod}}/modal-add-item.tpl"}}
+
 
 <div class="container-fluid"> <!-- container-fluid -->
 
@@ -30,25 +32,22 @@
             <div class="card-header">
                 <h3 class="card-title mr-2 mb-2"><i class="fas fa-list mr-2"></i>Listagem de {{$ref.plural}} <span id="total-results">({{$total_results}})</span></h3>
                 <div class="card-tools">
-
+                      {{if !$creating_order}}
                     <div class="">
-                        <a class="btn btn-default" href="{{site_url($pathMod)}}/form">
-                          <i class="fas fa-plus mr-2 text-success"></i>
-                          Novo
-                        </a>
-                        <button disabled type="submit" class="btn btn-default" name="action" value="form" id="btn-edit">
-                        <i class="fas fa-save mr-2 text-info"></i>
-                          Editar
+                        <button  type="submit" class="btn btn-default add-item-action"  data-type-item="products">
+                            <i class="fas fa-plus mr-2 text-success"></i>
+                            Adicionar produtos
                         </button>
-                        <button disabled type="submit" class="btn btn-default open-modal-delete" name="action" value="delete" id="btn-delete">
-                            <i class="fas fa-trash mr-2 text-danger"></i>
-                            Deletar
+                        <button  type="submit" class="btn btn-default add-item-action" data-type-item="users">
+                            <i class="fas fa-plus mr-2 text-success"></i>
+                            Adicionar clientes
                         </button>
                      </div>
+                     {{/if}}
 
                 </div>
             </div>
-            <div class="card-body list-container" id="default-list-container">
+            <div class="card-body list-container">
                 <!-- Renderização da tabela -->
                 {{if $listing && count($listing)}}
                 {{include file="modules/{{$pathMod}}/table.tpl"}}
@@ -56,7 +55,7 @@
                   <div class='alert alert-info col-12 text-center'>Nenhum dado para ser mostrado.</div>
                 {{/if}}
             </div>
-            <div class="card-footer pagination-container" id="default-pagination-container">
+            <div class="card-footer pagination-container">
                 {{$pagination}}
             </div>
         </div> <!--CARD -->

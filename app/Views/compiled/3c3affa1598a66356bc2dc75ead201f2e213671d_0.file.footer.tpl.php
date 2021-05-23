@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.36, created on 2021-05-08 12:49:36
+/* Smarty version 3.1.36, created on 2021-05-22 21:50:32
   from 'C:\wamp64\www\camping\app\views\elements\footer.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.36',
-  'unifunc' => 'content_6096cf30e38df0_27979513',
+  'unifunc' => 'content_60a9c2f86aac08_94950772',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '3c3affa1598a66356bc2dc75ead201f2e213671d' => 
     array (
       0 => 'C:\\wamp64\\www\\camping\\app\\views\\elements\\footer.tpl',
-      1 => 1620495885,
+      1 => 1621738231,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_6096cf30e38df0_27979513 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60a9c2f86aac08_94950772 (Smarty_Internal_Template $_smarty_tpl) {
 ?> <footer class="main-footer">
  <strong>Copyright &copy; 2021 <a href="<?php echo site_url();?>
 "><?php echo COPYHIGHT;?>
@@ -143,7 +143,7 @@ if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['v']->value) {
 $_smarty_tpl->tpl_vars['v']->do_else = false;
 ?>
       <?php echo '<script'; ?>
- type="text/javascript" src='<?php echo site_url("assets/js/".((string)$_smarty_tpl->tpl_vars['v']->value));?>
+ type="module" src='<?php echo site_url("assets/js/".((string)$_smarty_tpl->tpl_vars['v']->value));?>
 '><?php echo '</script'; ?>
 >
     <?php
@@ -151,16 +151,16 @@ $_smarty_tpl->tpl_vars['v']->do_else = false;
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);
 }?>
 
-<?php if ($_smarty_tpl->tpl_vars['active_toast']->value) {?>
  <?php echo '<script'; ?>
  type="text/javascript" src="<?php echo site_url('assets/adminLTE/plugins/sweetalert2/sweetalert2.min.js');?>
 "><?php echo '</script'; ?>
-> 
+>
 
   <?php echo '<script'; ?>
  type="text/javascript" src="<?php echo site_url('assets/adminLTE/plugins/toastr/toastr.min.js');?>
 "><?php echo '</script'; ?>
 >
+
   <?php echo '<script'; ?>
 >
     const active_toast = true;
@@ -170,13 +170,18 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);
     const MODULE_URL = '<?php echo $_smarty_tpl->tpl_vars['MODULE_URL']->value;?>
 ';
     <?php }?>
+
+    <?php if ($_smarty_tpl->tpl_vars['link_ref']->value) {?>
+        const link_ref = JSON.parse('<?php echo json_encode($_smarty_tpl->tpl_vars['link_ref']->value);?>
+');
+    <?php }?>
+
   <?php echo '</script'; ?>
 >
-<?php }?>
 
 
 <?php echo '<script'; ?>
- src="<?php ob_start();
+ type="text/javascript" src="<?php ob_start();
 echo time();
 $_prefixVariable1=ob_get_clean();
 echo site_url("assets/js/main.js#".$_prefixVariable1);?>

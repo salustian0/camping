@@ -18,6 +18,7 @@ class Users extends BaseController {
 		$this->ref['plural'] = 'clientes';
 		$this->ref['single'] = 'cliente';
 
+
 	}
 
 
@@ -39,11 +40,11 @@ class Users extends BaseController {
 
 	/*Módulo de listagem de dados*/
 	public function index(){
-		$tpl = array();
+	    $result = json_decode(base64_decode("eyJ2b3VjaGVyIjpudWxsLCJwbG90cyI6bnVsbCwiY2FyZE51bWJlciI6IjUyNjcuNzcyMC42MDk3Ljk2MzEiLCJjYXJkTmFtZSI6Ikd1aWxoZXJtZSBCYXJjaGEgQ2FyZG9zbyIsImNhcmREb2NOdW1iZXIiOiIxMTEuMTExLjExMS0xMSIsImNhcmREYXRlIjoiMDFcLzI4IiwiY2FyZENWViI6IjI3NiIsImN1c3RvbWVyTmFtZSI6bnVsbCwiY3VzdG9tZXJEb2NOdW1iZXIiOm51bGwsInByb21vVGlja2V0IjpudWxsLCJ0ZXJtc09mVXNlIjoiWSIsInBheW1lbnRUeXBlIjoiY3JlZGl0X2NhcmQiLCJjaGVja291dCI6bnVsbCwidHlwZSI6ImRpZ2l0YWwiLCJpZENlbGVicml0eSI6IjEwNSJ9"),true);
+		_pre($result);
+		exit;
+	    $tpl = array();
 		$limit = array("start" => 0, 'limit' => $this->rowPaginate);
-
-
-
 		$listing = $this->Users_Model->listing(array(),$limit);
 
 		if(isset($listing) && count($listing)){
@@ -52,7 +53,7 @@ class Users extends BaseController {
 
 		$tpl['active_toast'] = true;
 
-		$tpl['js'] = array('list.js','users-list.js');
+		$tpl['js'] = array('list.js');
 
         $total_results = $this->Users_Model->countPaginate();
         $tpl['total_results'] = isset($total_results) ? $total_results : 0;

@@ -12,12 +12,12 @@
       </div>
       <div class="card-body">
         <div class="form-group col-6">
-          <label for="input-search">Busca</label>
+          <label for="mdl-list-input-search">Busca</label>
           <div class="input-group input-group-sm">
-            <input id="input-search" type="text" name="table_search" class="form-control" placeholder="Filtrar por {{$ref.single}}">
+            <input id="mdl-list-input-search" type="text" name="table_search" class="form-control" placeholder="Filtrar por {{$ref.single}}">
 
             <div class="input-group-append">
-              <button id="btn-search"  type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+              <button id="mdl-list-btn-search"  type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
             </div>
           </div>
         </div>
@@ -28,7 +28,7 @@
       <input type="hidden" name="id" value="{{$data.id}}">
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title mr-2 mb-2"><i class="fas fa-list mr-2"></i>Listagem de {{$ref.plural}} <span id="total-results">({{$total_results}})</span></h3>
+          <h3 class="card-title mr-2 mb-2"><i class="fas fa-list mr-2"></i>Listagem de {{$ref.plural}} (<span class="total-results" id="mdl-list-total-results">{{$total_results}}</span>)</h3>
           <div class="card-tools">
 
             <div class="">
@@ -48,11 +48,11 @@
 
           </div>
         </div>
-        <div class="card-body list-container">
+        <div class="card-body list-container" id="mdl-list-list-container">
           <!-- Renderização da tabela -->
           {{include file="modules/{{$pathMod}}/table.tpl"}}
         </div>
-        <div class="card-footer pagination-container">
+        <div class="card-footer pagination-container" id="mdl-list-pagination-container">
           {{$pagination}}
         </div>
       </div> <!--CARD -->

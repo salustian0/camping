@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.36, created on 2021-05-23 13:01:03
-  from 'C:\wamp64\www\camping\app\views\modules\\\category\list.tpl' */
+/* Smarty version 3.1.36, created on 2021-05-22 19:03:28
+  from 'C:\wamp64\www\camping\app\views\modules\\\orders\list.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.36',
-  'unifunc' => 'content_60aa985f7945c8_30565323',
+  'unifunc' => 'content_60a99bd019a542_06204850',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
-    '785deb6052770860d872728b277e7a720cfda44b' => 
+    '551e712f4c5d4f7f2e9f9141ac92e337eb9a7b39' => 
     array (
-      0 => 'C:\\wamp64\\www\\camping\\app\\views\\modules\\\\\\category\\list.tpl',
-      1 => 1621728488,
+      0 => 'C:\\wamp64\\www\\camping\\app\\views\\modules\\\\\\orders\\list.tpl',
+      1 => 1621728207,
       2 => 'file',
     ),
   ),
@@ -21,18 +21,21 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:elements/header.tpl' => 1,
     'file:elements/sidebar.tpl' => 1,
     'file:elements/content-header.tpl' => 1,
+    'file:modules/".((string)$_smarty_tpl->tpl_vars[\'pathMod\']->value)."/modal-add-item.tpl' => 1,
     'file:modules/".((string)$_smarty_tpl->tpl_vars[\'pathMod\']->value)."/table.tpl' => 1,
     'file:elements/footer.tpl' => 1,
   ),
 ),false)) {
-function content_60aa985f7945c8_30565323 (Smarty_Internal_Template $_smarty_tpl) {
+function content_60a99bd019a542_06204850 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_subTemplateRender("file:elements/header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 $_smarty_tpl->_subTemplateRender("file:elements/sidebar.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 ?>
 
 <div class="content-wrapper"> <!--content-wrapper -->
 <?php $_smarty_tpl->_subTemplateRender("file:elements/content-header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+$_smarty_tpl->_subTemplateRender("file:modules/".((string)$_smarty_tpl->tpl_vars['pathMod']->value)."/modal-add-item.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, true);
 ?>
+
 
 <div class="container-fluid"> <!-- container-fluid -->
 
@@ -65,26 +68,22 @@ $_smarty_tpl->_subTemplateRender("file:elements/sidebar.tpl", $_smarty_tpl->cach
  <span id="total-results">(<?php echo $_smarty_tpl->tpl_vars['total_results']->value;?>
 )</span></h3>
                 <div class="card-tools">
-
+                      <?php if (!$_smarty_tpl->tpl_vars['creating_order']->value) {?>
                     <div class="">
-                        <a class="btn btn-default" href="<?php echo site_url($_smarty_tpl->tpl_vars['pathMod']->value);?>
-/form">
-                          <i class="fas fa-plus mr-2 text-success"></i>
-                          Novo
-                        </a>
-                        <button disabled type="submit" class="btn btn-default" name="action" value="form" id="btn-edit">
-                        <i class="fas fa-save mr-2 text-info"></i>
-                          Editar
+                        <button  type="submit" class="btn btn-default add-item-action"  data-type-item="products">
+                            <i class="fas fa-plus mr-2 text-success"></i>
+                            Adicionar produtos
                         </button>
-                        <button disabled type="submit" class="btn btn-default open-modal-delete" name="action" value="delete" id="btn-delete">
-                            <i class="fas fa-trash mr-2 text-danger"></i>
-                            Deletar
+                        <button  type="submit" class="btn btn-default add-item-action" data-type-item="users">
+                            <i class="fas fa-plus mr-2 text-success"></i>
+                            Adicionar clientes
                         </button>
                      </div>
+                     <?php }?>
 
                 </div>
             </div>
-            <div class="card-body list-container" id="default-list-container">
+            <div class="card-body list-container">
                 <!-- Renderização da tabela -->
                 <?php if ($_smarty_tpl->tpl_vars['listing']->value && count($_smarty_tpl->tpl_vars['listing']->value)) {?>
                 <?php $_smarty_tpl->_subTemplateRender("file:modules/".((string)$_smarty_tpl->tpl_vars['pathMod']->value)."/table.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, true);
@@ -93,7 +92,7 @@ $_smarty_tpl->_subTemplateRender("file:elements/sidebar.tpl", $_smarty_tpl->cach
                   <div class='alert alert-info col-12 text-center'>Nenhum dado para ser mostrado.</div>
                 <?php }?>
             </div>
-            <div class="card-footer pagination-container" id="default-pagination-container">
+            <div class="card-footer pagination-container">
                 <?php echo $_smarty_tpl->tpl_vars['pagination']->value;?>
 
             </div>

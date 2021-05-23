@@ -59,25 +59,29 @@ $.widget.bridge('uibutton', $.ui.button)
 <!-- Carregando scripts personalizados -->
 {{if $js }}
     {{foreach from=$js item=$v}}
-      <script type="text/javascript" src='{{site_url("assets/js/$v")}}'></script>
+      <script type="module" src='{{site_url("assets/js/$v")}}'></script>
     {{/foreach}}
 {{/if}}
 
-{{if $active_toast}}
- <script type="text/javascript" src="{{site_url('assets/adminLTE/plugins/sweetalert2/sweetalert2.min.js')}}"></script> 
+ <script type="text/javascript" src="{{site_url('assets/adminLTE/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 
   <script type="text/javascript" src="{{site_url('assets/adminLTE/plugins/toastr/toastr.min.js')}}"></script>
+
   <script>
     const active_toast = true;
     const BASE_URL = '{{site_url()}}';
     {{if $MODULE_URL}}
     const MODULE_URL = '{{$MODULE_URL}}';
     {{/if}}
+
+    {{if $link_ref}}
+        const link_ref = JSON.parse('{{json_encode($link_ref)}}');
+    {{/if}}
+
   </script>
-{{/if}}
 
 
-<script src="{{site_url("assets/js/main.js#{{time()}}")}}"></script>
+<script type="text/javascript" src="{{site_url("assets/js/main.js#{{time()}}")}}"></script>
 
 </body>
 </html>

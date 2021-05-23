@@ -12,9 +12,9 @@
         </div>
         <div class="card-body">
                 <div class="form-group col-6">
-                    <label for="input-search">Busca</label>
+                    <label for="mdl-list-btn-search">Busca</label>
                     <div class="input-group input-group-sm">
-                        <input id="input-search" type="text" name="table_search" class="form-control" placeholder="Filtrar por {{$ref.single}}">
+                        <input id="mdl-list-btn-search" type="text" name="table_search" class="form-control" placeholder="Filtrar por {{$ref.single}}">
 
                         <div class="input-group-append">
                             <button id="btn-search"  type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
@@ -48,15 +48,11 @@
 
                 </div>
             </div>
-            <div class="card-body list-container" id="default-list-container">
+            <div class="card-body list-container">
                 <!-- Renderização da tabela -->
-                {{if $listing && count($listing)}}
                 {{include file="modules/{{$pathMod}}/table.tpl"}}
-                  {{else}}
-                  <div class='alert alert-info col-12 text-center'>Nenhum dado para ser mostrado.</div>
-                {{/if}}
             </div>
-            <div class="card-footer pagination-container" id="default-pagination-container">
+            <div class="card-footer pagination-container">
                 {{$pagination}}
             </div>
         </div> <!--CARD -->
